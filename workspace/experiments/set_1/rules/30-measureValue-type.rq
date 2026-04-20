@@ -1,0 +1,11 @@
+PREFIX ex: <http://localhost:4321/ontology/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Ported from ex:rule_measureValue_type (fc_rule_candidate_working.ttl).
+# Original Jena rule:
+#   (?x ex:measureValue ?v) -> (?x rdf:type ex:HealthDisparityMeasure)
+
+CONSTRUCT { ?x a ex:HealthDisparityMeasure }
+WHERE {
+  ?x ex:measureValue ?v .
+}

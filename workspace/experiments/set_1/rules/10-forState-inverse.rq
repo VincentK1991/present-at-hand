@@ -1,0 +1,12 @@
+PREFIX ex: <http://localhost:4321/ontology/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Ported from ex:rule_forState_inverse (fc_rule_candidate_working.ttl).
+# Original Jena rule:
+#   (?x ex:forState ?s), (?s rdf:type ex:State) -> (?s ex:hasObservedEntity ?x)
+
+CONSTRUCT { ?s ex:hasObservedEntity ?x }
+WHERE {
+  ?x ex:forState ?s .
+  ?s a ex:State .
+}

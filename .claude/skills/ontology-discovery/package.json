@@ -1,0 +1,20 @@
+{
+  "name": "ontology-discovery-skill",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Portable ontology discovery skill: extraction, inference, and quality metrics.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "extract": "node ./scripts/extract-to-ttl.mjs",
+    "infer": "node ./scripts/infer-to-ttl.mjs",
+    "metrics": "node ./scripts/metrics.mjs",
+    "test:infer:smoke": "node ./scripts/test-infer-smoke.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.90.0",
+    "zod": "^4.3.6"
+  }
+}

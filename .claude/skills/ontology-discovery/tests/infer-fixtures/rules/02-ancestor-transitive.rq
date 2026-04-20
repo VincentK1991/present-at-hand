@@ -1,0 +1,10 @@
+PREFIX ex: <https://example.org/onto/>
+
+CONSTRUCT {
+  ?a ex:ancestorOf ?c .
+}
+WHERE {
+  ?a ex:ancestorOf ?b .
+  ?b ex:ancestorOf ?c .
+  FILTER (?a != ?c)
+}

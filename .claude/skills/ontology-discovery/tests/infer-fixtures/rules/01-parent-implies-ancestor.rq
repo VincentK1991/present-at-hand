@@ -1,0 +1,8 @@
+PREFIX ex: <https://example.org/onto/>
+
+CONSTRUCT {
+  ?a ex:ancestorOf ?b .
+}
+WHERE {
+  ?a ex:parentOf ?b .
+}

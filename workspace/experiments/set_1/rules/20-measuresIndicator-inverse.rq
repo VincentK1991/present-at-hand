@@ -1,0 +1,10 @@
+PREFIX ex: <http://localhost:4321/ontology/>
+
+# Ported from ex:rule_measuresIndicator_inverse (fc_rule_candidate_working.ttl).
+# Original Jena rule:
+#   (?x ex:measuresIndicator ?i) -> (?i ex:isMeasuredBy ?x)
+
+CONSTRUCT { ?i ex:isMeasuredBy ?x }
+WHERE {
+  ?x ex:measuresIndicator ?i .
+}
