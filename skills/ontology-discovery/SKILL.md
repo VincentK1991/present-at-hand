@@ -1,6 +1,7 @@
 ---
 name: ontology-discovery
 description: Use this skill to teach an LLM how to discover, validate, and iteratively improve an ontology and SPARQL inference rules from unstructured text using a user-in-the-loop workflow and measurable quality gates.
+license: MIT
 ---
 
 # ontology-discovery
@@ -57,8 +58,19 @@ Do not use when the user only wants one-off extraction without ontology/rule ref
 ## Prerequisites
 
 - Apache Jena CLI available (`riot`, `arq`, `shacl`)
-- Node dependencies installed (`npm install` from skill root)
+- Node.js ≥ 20
 - `ANTHROPIC_API_KEY` set for extraction
+
+### First-time setup after `gh skill install`
+
+After installing with `gh skill install vincentk1991/present-at-hand ontology-discovery`,
+the skill lands in `~/.claude/skills/ontology-discovery/`. Run once:
+
+```bash
+cd ~/.claude/skills/ontology-discovery
+npm install
+cp .env.example .env   # then fill in ANTHROPIC_API_KEY
+```
 
 ## Portable Packaging and Use
 

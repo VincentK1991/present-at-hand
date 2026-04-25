@@ -1,0 +1,6 @@
+@prefix ex: <https://example.org/onto/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+ex:Person a owl:Class .
+ex:parentOf a owl:ObjectProperty .
+ex:ancestorOf a owl:ObjectProperty .

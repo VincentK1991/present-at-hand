@@ -1,0 +1,9 @@
+@prefix ex: <https://example.org/onto/> .
+@prefix data: <https://example.org/data/> .
+
+data:alice a ex:Person .
+data:bob a ex:Person .
+data:carol a ex:Person .
+
+data:alice ex:parentOf data:bob .
+data:bob ex:parentOf data:carol .

@@ -24,3 +24,15 @@ Thumbs.db
 tmp/
 .tmp/
 corpus/
+
+# Generated TTL outputs
+out*.ttl
+
+# Lock files
+*.lock
+
+# Prevent accidentally committing skills installed from other authors
+# (gh skill install deposits skills here; only ontology-discovery is ours)
+.claude/skills/*/
+!.claude/skills/ontology-discovery/
+workspace/
