@@ -1,0 +1,11 @@
+# DB properties template — copy and fill in for your database
+# jdbc.url=jdbc:postgresql://localhost:5432/mydb
+# jdbc.user=myuser
+# jdbc.password=mypassword
+# jdbc.driver=org.postgresql.Driver
+
+# For Trino:
+# jdbc.url=jdbc:trino://localhost:8080/mycatalog
+# jdbc.user=trino
+# jdbc.password=
+# jdbc.driver=io.trino.jdbc.TrinoDriver

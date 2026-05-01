@@ -1,0 +1,91 @@
+{
+  "generated": "2025-01-01T00:00:00Z",
+  "cardinality_threshold": 50,
+  "skip_probes": true,
+  "_note": "Pre-computed fixture — matches binding.obda bootstrap.obda structure. Cardinality data simulated.",
+  "predicates": [
+    {
+      "iri": "https://example.org/clinical/patientName",
+      "classification": "free_text",
+      "distinct_count": 480,
+      "total_count": 500
+    },
+    {
+      "iri": "https://example.org/clinical/dateOfBirth",
+      "classification": "date",
+      "distinct_count": 490,
+      "total_count": 500
+    },
+    {
+      "iri": "https://example.org/clinical/status",
+      "classification": "low_cardinality",
+      "distinct_count": 3,
+      "total_count": 500
+    },
+    {
+      "iri": "https://example.org/clinical/hasCondition",
+      "classification": "fk",
+      "distinct_count": null,
+      "total_count": null
+    },
+    {
+      "iri": "https://example.org/clinical/conditionCode",
+      "classification": "low_cardinality",
+      "distinct_count": 42,
+      "total_count": 800
+    },
+    {
+      "iri": "https://example.org/clinical/conditionDescription",
+      "classification": "free_text",
+      "distinct_count": 750,
+      "total_count": 800
+    },
+    {
+      "iri": "https://example.org/clinical/onsetDate",
+      "classification": "date",
+      "distinct_count": 610,
+      "total_count": 800
+    },
+    {
+      "iri": "https://example.org/clinical/hasClaim",
+      "classification": "fk",
+      "distinct_count": null,
+      "total_count": null
+    },
+    {
+      "iri": "https://example.org/clinical/claimAmount",
+      "classification": "numeric",
+      "distinct_count": 312,
+      "total_count": 1200
+    },
+    {
+      "iri": "https://example.org/clinical/filedDate",
+      "classification": "date",
+      "distinct_count": 540,
+      "total_count": 1200
+    }
+  ],
+  "subject_templates": [
+    {
+      "type": "subject_template",
+      "template": "https://example.org/clinical/{patient_id}",
+      "classification": "pk"
+    },
+    {
+      "type": "subject_template",
+      "template": "https://example.org/clinical/{condition_id}",
+      "classification": "pk"
+    },
+    {
+      "type": "subject_template",
+      "template": "https://example.org/clinical/{claim_id}",
+      "classification": "pk"
+    }
+  ],
+  "fk_count": 2,
+  "low_cardinality_count": 2,
+  "numeric_count": 1,
+  "date_count": 3,
+  "free_text_count": 2,
+  "pk_count": 3
+}

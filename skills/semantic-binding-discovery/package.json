@@ -1,0 +1,13 @@
+{
+  "name": "semantic-binding-discovery-skill",
+  "version": "1.0.0",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "explore": "node ./scripts/explore-schema.mjs",
+    "richness": "node ./scripts/richness-metrics.mjs"
+  },
+  "dependencies": {
+    "zod": "^4.3.6"
+  }
+}

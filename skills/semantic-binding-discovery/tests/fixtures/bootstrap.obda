@@ -1,0 +1,60 @@
+[PrefixDeclaration]
+:		https://example.org/clinical/
+owl:		http://www.w3.org/2002/07/owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+xsd:		http://www.w3.org/2001/XMLSchema#
+
+[MappingDeclaration] @collection [[
+mappingId	patients-class
+target		:{patient_id} a :patients .
+source		SELECT patient_id FROM patients
+
+mappingId	patients-name
+target		:{patient_id} :name {name}^^xsd:string .
+source		SELECT patient_id, name FROM patients
+
+mappingId	patients-dob
+target		:{patient_id} :dob {dob}^^xsd:string .
+source		SELECT patient_id, dob FROM patients
+
+mappingId	patients-status
+target		:{patient_id} :status {status}^^xsd:string .
+source		SELECT patient_id, status FROM patients
+
+mappingId	conditions-class
+target		:{condition_id} a :conditions .
+source		SELECT condition_id FROM conditions
+
+mappingId	conditions-patient_id
+target		:{condition_id} :patient_id {patient_id}^^xsd:integer .
+source		SELECT condition_id, patient_id FROM conditions
+
+mappingId	conditions-code
+target		:{condition_id} :code {code}^^xsd:string .
+source		SELECT condition_id, code FROM conditions
+
+mappingId	conditions-description
+target		:{condition_id} :description {description}^^xsd:string .
+source		SELECT condition_id, description FROM conditions
+
+mappingId	conditions-onset_date
+target		:{condition_id} :onset_date {onset_date}^^xsd:string .
+source		SELECT condition_id, onset_date FROM conditions
+
+mappingId	claims-class
+target		:{claim_id} a :claims .
+source		SELECT claim_id FROM claims
+
+mappingId	claims-condition_id
+target		:{claim_id} :condition_id {condition_id}^^xsd:integer .
+source		SELECT claim_id, condition_id FROM claims
+
+mappingId	claims-amount
+target		:{claim_id} :amount {amount}^^xsd:string .
+source		SELECT claim_id, amount FROM claims
+
+mappingId	claims-filed_date
+target		:{claim_id} :filed_date {filed_date}^^xsd:string .
+source		SELECT claim_id, filed_date FROM claims
+]]

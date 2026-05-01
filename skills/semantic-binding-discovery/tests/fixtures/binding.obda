@@ -1,0 +1,63 @@
+[PrefixDeclaration]
+:		https://example.org/clinical/
+owl:		http://www.w3.org/2002/07/owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+xsd:		http://www.w3.org/2001/XMLSchema#
+
+[MappingDeclaration] @collection [[
+
+# --- Patient entity ---
+
+mappingId	patient-class
+target		:{patient_id} a :Patient ; :patientName {name}^^xsd:string .
+source		SELECT patient_id, name FROM patients
+
+mappingId	patient-dob
+target		:{patient_id} :dateOfBirth {dob}^^xsd:date .
+source		SELECT patient_id, dob FROM patients WHERE dob IS NOT NULL
+
+# --- Patient status subclass assertions ---
+
+mappingId	patient-status-active
+target		:{patient_id} a :ActivePatient .
+source		SELECT patient_id FROM patients WHERE status = 'Active'
+
+mappingId	patient-status-discharged
+target		:{patient_id} a :DischargedPatient .
+source		SELECT patient_id FROM patients WHERE status = 'Discharged'
+
+mappingId	patient-status-deceased
+target		:{patient_id} a :DeceasedPatient .
+source		SELECT patient_id FROM patients WHERE status = 'Deceased'
+
+# --- Condition entity ---
+
+mappingId	condition-class
+target		:{condition_id} a :Condition ; :conditionCode {code}^^xsd:string ; :conditionDescription {description}^^xsd:string .
+source		SELECT condition_id, code, description FROM conditions
+
+mappingId	condition-onset
+target		:{condition_id} :onsetDate {onset_date}^^xsd:date .
+source		SELECT condition_id, onset_date FROM conditions WHERE onset_date IS NOT NULL
+
+# --- Patient → Condition (FK object property) ---
+
+mappingId	patient-hasCondition
+target		:{patient_id} :hasCondition :{condition_id} .
+source		SELECT p.patient_id, c.condition_id
+            FROM patients p JOIN conditions c ON p.patient_id = c.patient_id
+
+# --- Claim entity ---
+
+mappingId	claim-class
+target		:{claim_id} a :Claim ; :claimAmount {amount}^^xsd:decimal ; :filedDate {filed_date}^^xsd:date .
+source		SELECT claim_id, amount, filed_date FROM claims
+
+# --- Condition → Claim (FK object property) ---
+
+mappingId	condition-hasClaim
+target		:{condition_id} :hasClaim :{claim_id} .
+source		SELECT c.condition_id, cl.claim_id
+            FROM conditions c JOIN claims cl ON c.condition_id = cl.condition_id
+]]

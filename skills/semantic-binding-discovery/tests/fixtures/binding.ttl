@@ -1,0 +1,129 @@
+@prefix rr:    <http://www.w3.org/ns/r2rml#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix :      <https://example.org/clinical/> .
+
+# --- Patient TriplesMap ---
+
+<#PatientMap>
+  a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery "SELECT patient_id, name FROM patients" ] ;
+  rr:subjectMap [
+    rr:template "https://example.org/clinical/{patient_id}" ;
+    rr:class :Patient
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate :patientName ;
+    rr:objectMap [ rr:column "name" ; rr:datatype xsd:string ]
+  ] .
+
+<#PatientDobMap>
+  a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery "SELECT patient_id, dob FROM patients WHERE dob IS NOT NULL" ] ;
+  rr:subjectMap [ rr:template "https://example.org/clinical/{patient_id}" ] ;
+  rr:predicateObjectMap [
+    rr:predicate :dateOfBirth ;
+    rr:objectMap [ rr:column "dob" ; rr:datatype xsd:date ]
+  ] .
+
+<#PatientStatusActiveMap>
+  a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery "SELECT patient_id FROM patients WHERE status = 'Active'" ] ;
+  rr:subjectMap [
+    rr:template "https://example.org/clinical/{patient_id}" ;
+    rr:class :ActivePatient
+  ] .
+
+<#PatientStatusDischargedMap>
+  a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery "SELECT patient_id FROM patients WHERE status = 'Discharged'" ] ;
+  rr:subjectMap [
+    rr:template "https://example.org/clinical/{patient_id}" ;
+    rr:class :DischargedPatient
+  ] .
+
+<#PatientStatusDeceasedMap>
+  a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery "SELECT patient_id FROM patients WHERE status = 'Deceased'" ] ;
+  rr:subjectMap [
+    rr:template "https://example.org/clinical/{patient_id}" ;
+    rr:class :DeceasedPatient
+  ] .
+
+# --- Condition TriplesMap ---
+
+<#ConditionMap>
+  a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery "SELECT condition_id, code, description FROM conditions" ] ;
+  rr:subjectMap [
+    rr:template "https://example.org/clinical/{condition_id}" ;
+    rr:class :Condition
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate :conditionCode ;
+    rr:objectMap [ rr:column "code" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate :conditionDescription ;
+    rr:objectMap [ rr:column "description" ; rr:datatype xsd:string ]
+  ] .
+
+<#ConditionOnsetMap>
+  a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery "SELECT condition_id, onset_date FROM conditions WHERE onset_date IS NOT NULL" ] ;
+  rr:subjectMap [ rr:template "https://example.org/clinical/{condition_id}" ] ;
+  rr:predicateObjectMap [
+    rr:predicate :onsetDate ;
+    rr:objectMap [ rr:column "onset_date" ; rr:datatype xsd:date ]
+  ] .
+
+# --- Patient → Condition (FK object property) ---
+
+<#PatientHasConditionMap>
+  a rr:TriplesMap ;
+  rr:logicalTable [
+    rr:sqlQuery "SELECT p.patient_id, c.condition_id FROM patients p JOIN conditions c ON p.patient_id = c.patient_id"
+  ] ;
+  rr:subjectMap [ rr:template "https://example.org/clinical/{patient_id}" ] ;
+  rr:predicateObjectMap [
+    rr:predicate :hasCondition ;
+    rr:objectMap [
+      rr:parentTriplesMap <#ConditionMap> ;
+      rr:joinCondition [ rr:child "condition_id" ; rr:parent "condition_id" ]
+    ]
+  ] .
+
+# --- Claim TriplesMap ---
+
+<#ClaimMap>
+  a rr:TriplesMap ;
+  rr:logicalTable [ rr:sqlQuery "SELECT claim_id, amount, filed_date FROM claims" ] ;
+  rr:subjectMap [
+    rr:template "https://example.org/clinical/{claim_id}" ;
+    rr:class :Claim
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate :claimAmount ;
+    rr:objectMap [ rr:column "amount" ; rr:datatype xsd:decimal ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate :filedDate ;
+    rr:objectMap [ rr:column "filed_date" ; rr:datatype xsd:date ]
+  ] .
+
+# --- Condition → Claim (FK object property) ---
+
+<#ConditionHasClaimMap>
+  a rr:TriplesMap ;
+  rr:logicalTable [
+    rr:sqlQuery "SELECT c.condition_id, cl.claim_id FROM conditions c JOIN claims cl ON c.condition_id = cl.condition_id"
+  ] ;
+  rr:subjectMap [ rr:template "https://example.org/clinical/{condition_id}" ] ;
+  rr:predicateObjectMap [
+    rr:predicate :hasClaim ;
+    rr:objectMap [
+      rr:parentTriplesMap <#ClaimMap> ;
+      rr:joinCondition [ rr:child "claim_id" ; rr:parent "claim_id" ]
+    ]
+  ] .

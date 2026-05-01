@@ -1,0 +1,98 @@
+@prefix :      <https://example.org/clinical/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+# --- Ontology declaration ---
+<https://example.org/clinical/ontology>
+  a owl:Ontology ;
+  rdfs:label "Clinical Fixture Ontology" ;
+  rdfs:comment "Enriched ontology for the 3-table clinical fixture (after 2 improvement cycles)." .
+
+# --- Core entity classes ---
+
+:Patient a owl:Class ;
+  rdfs:label "Patient" ;
+  rdfs:comment "A person receiving clinical care." .
+
+:Condition a owl:Class ;
+  rdfs:label "Condition" ;
+  rdfs:comment "A diagnosed medical condition associated with a patient." .
+
+:Claim a owl:Class ;
+  rdfs:label "Claim" ;
+  rdfs:comment "An insurance claim filed for a condition." .
+
+# --- Patient status subclass hierarchy ---
+
+:PatientStatus a owl:Class ;
+  rdfs:label "Patient Status" ;
+  rdfs:comment "Lifecycle status of a patient in the clinical system." .
+
+:ActivePatient a owl:Class ;
+  rdfs:subClassOf :PatientStatus ;
+  rdfs:label "Active Patient" ;
+  rdfs:comment "Patient currently receiving care." .
+
+:DischargedPatient a owl:Class ;
+  rdfs:subClassOf :PatientStatus ;
+  rdfs:label "Discharged Patient" ;
+  rdfs:comment "Patient who has completed their care episode." .
+
+:DeceasedPatient a owl:Class ;
+  rdfs:subClassOf :PatientStatus ;
+  rdfs:label "Deceased Patient" ;
+  rdfs:comment "Patient who has passed away." .
+
+# --- Object properties (FK-derived) ---
+
+:hasCondition a owl:ObjectProperty ;
+  rdfs:domain :Patient ;
+  rdfs:range :Condition ;
+  rdfs:label "has condition" ;
+  rdfs:comment "Links a patient to one of their diagnosed conditions." .
+
+:hasClaim a owl:ObjectProperty ;
+  rdfs:domain :Condition ;
+  rdfs:range :Claim ;
+  rdfs:label "has claim" ;
+  rdfs:comment "Links a condition to a filed insurance claim." .
+
+# --- Datatype properties ---
+
+:patientName a owl:DatatypeProperty ;
+  rdfs:domain :Patient ;
+  rdfs:range xsd:string ;
+  rdfs:label "patient name" .
+
+:dateOfBirth a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:domain :Patient ;
+  rdfs:range xsd:date ;
+  rdfs:label "date of birth" .
+
+:conditionCode a owl:DatatypeProperty ;
+  rdfs:domain :Condition ;
+  rdfs:range xsd:string ;
+  rdfs:label "condition code" ;
+  rdfs:comment "ICD-10 or similar classification code." .
+
+:conditionDescription a owl:DatatypeProperty ;
+  rdfs:domain :Condition ;
+  rdfs:range xsd:string ;
+  rdfs:label "condition description" .
+
+:onsetDate a owl:DatatypeProperty ;
+  rdfs:domain :Condition ;
+  rdfs:range xsd:date ;
+  rdfs:label "onset date" .
+
+:claimAmount a owl:DatatypeProperty ;
+  rdfs:domain :Claim ;
+  rdfs:range xsd:decimal ;
+  rdfs:label "claim amount" ;
+  rdfs:comment "Total amount of the insurance claim in local currency." .
+
+:filedDate a owl:DatatypeProperty ;
+  rdfs:domain :Claim ;
+  rdfs:range xsd:date ;
+  rdfs:label "filed date" .
